@@ -4,7 +4,7 @@ PSQL="psql --username=freecodecamp --dbname=periodic_table -t --no-align -c"
 NOT_FOUND() {
   echo I could not find that element in the database.
 }
-OUTPUT_MESSAGE=(echo "\nThe element with atomic number $ATOMIC_NO is $ELEMENT_NAME. It's a $ELEMENT_TYPE, with a mass of $ATOMIC_MASS amu. $ELEMENT_NAME has a melting point of $ELEMENT_MELTING_POINT celsius and a boiling point of $ELEMENT_BOILING_POINT celsius.")
+# echo -e "\nThe element with atomic number $ATOMIC_NO is $ELEMENT_NAME. It's a $ELEMENT_TYPE, with a mass of $ATOMIC_MASS amu. $ELEMENT_NAME has a melting point of $ELEMENT_MELTING_POINT celsius and a boiling point of $ELEMENT_BOILING_POINT celsius."
 
 # if no argument
 if [[ -z $1 ]]
@@ -28,7 +28,9 @@ then
 
   # get element type
     ELEMENT_TYPE=$(echo -e "$($PSQL "
-      SELECT type FROM properties WHERE atomic_number=$ATOMIC_NO
+      SELECT types.type FROM types 
+      INNER JOIN properties USING(type_id)
+      WHERE atomic_number=$ATOMIC_NO
     ")")
 
   # get atomic mass
@@ -45,6 +47,9 @@ then
     ELEMENT_BOILING_POINT=$(echo -e "$($PSQL "
       SELECT boiling_point_celsius FROM properties WHERE atomic_number=$ATOMIC_NO
     ")")
+
+  # output
+  echo -e "The element with atomic number $ATOMIC_NO is $ELEMENT_NAME. It's a $ELEMENT_TYPE, with a mass of $ATOMIC_MASS amu. $ELEMENT_NAME has a melting point of $ELEMENT_MELTING_POINT celsius and a boiling point of $ELEMENT_BOILING_POINT celsius."
 
   fi
 fi
