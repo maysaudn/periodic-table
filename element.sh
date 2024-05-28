@@ -8,13 +8,11 @@ OUTPUT_MESSAGE=(echo "\nThe element with atomic number $ATOMIC_NO is $ELEMENT_NA
 
 # if no argument
 if [[ -z $1 ]]
-
 then
   echo Please provide an element as an argument.
 
 #if $1 is a number
 elif [[ $1 =~ ^[0-9]+$ ]]
-
 then
   # get atomic number
   ATOMIC_NO=$($PSQL "SELECT atomic_number FROM elements WHERE atomic_number=$1")
@@ -26,14 +24,23 @@ then
     NOT_FOUND
   else
   # get element name
-    echo element name
+    ELEMENT_NAME=$(echo -e "$($PSQL "SELECT name FROM elements WHERE atomic_number=$ATOMIC_NO")")
+
+    echo $ELEMENT_NAME
   # get element type
-    echo element type
+    ELEMENT_TYPE=$(echo -e "$($PSQL "
+      SELECT type FROM properties WHERE atomic_number=$ATOMIC_NO
+    ")")
+
+    echo $ELEMENT_TYPE
   # get atomic mass
     echo atomic mass
+
   # get element melting point 
     echo melting point
+
   # get element boiling point
     echo boiling point
+
   fi
 fi
