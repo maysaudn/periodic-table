@@ -26,21 +26,25 @@ then
   # get element name
     ELEMENT_NAME=$(echo -e "$($PSQL "SELECT name FROM elements WHERE atomic_number=$ATOMIC_NO")")
 
-    echo $ELEMENT_NAME
   # get element type
     ELEMENT_TYPE=$(echo -e "$($PSQL "
       SELECT type FROM properties WHERE atomic_number=$ATOMIC_NO
     ")")
 
-    echo $ELEMENT_TYPE
   # get atomic mass
-    echo atomic mass
+    ATOMIC_MASS=$(echo -e "$($PSQL "
+      SELECT atomic_mass FROM properties WHERE atomic_number=$ATOMIC_NO
+    ")")
 
   # get element melting point 
-    echo melting point
+    ELEMENT_MELTING_POINT=$(echo -e "$($PSQL "
+      SELECT melting_point_celsius FROM properties WHERE atomic_number=$ATOMIC_NO
+    ")")
 
   # get element boiling point
-    echo boiling point
+    ELEMENT_BOILING_POINT=$(echo -e "$($PSQL "
+      SELECT boiling_point_celsius FROM properties WHERE atomic_number=$ATOMIC_NO
+    ")")
 
   fi
 fi
