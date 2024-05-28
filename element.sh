@@ -4,7 +4,6 @@ PSQL="psql --username=freecodecamp --dbname=periodic_table -t --no-align -c"
 NOT_FOUND() {
   echo I could not find that element in the database.
 }
-# echo -e "\nThe element with atomic number $ATOMIC_NO is $ELEMENT_NAME. It's a $ELEMENT_TYPE, with a mass of $ATOMIC_MASS amu. $ELEMENT_NAME has a melting point of $ELEMENT_MELTING_POINT celsius and a boiling point of $ELEMENT_BOILING_POINT celsius."
 
 # if no argument
 if [[ -z $1 ]]
